@@ -73,13 +73,34 @@ class SearchZipcode extends Component
 
             $this->render();
 
+            $this->notification()->success(title:'Endereço salvo com sucesso!');
+
             $this->resetExcept('addresses');
+    }
+
+    public function edit(string $id): void
+    {
+        $address = Address::find($id);
+        $this->zipcode =$address->zipcode;
+        $this->street = $address->street;
+        $this->neighborhood = $address->neighborhood;
+        $this->city = $address->city;
+        $this->state = $address->state;
+
     }
 
     public function cancel(): void
     {
-        $this->notification()->info(title: 'Cancelar', description:'Sua ação foi cancelada com sucesso!');
+        $this->notification()->info(title: 'Cancelado com sucesso');
         
+    }
+
+    public function remove(string $id): void
+    {
+        $address = Address::find($id);
+        $address?->delete();
+
+        $this->notification()->success(title: 'Excluido', description:'O endereço foi excluido com sucesso!');
     }
 
    
